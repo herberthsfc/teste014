@@ -42,8 +42,8 @@ const vcard = 'BEGIN:VCARD\n'
             + 'TEL;type=CELL;type=VOICE;waid=5511996237647:+55 (11) 99623-7647\n' 
             + 'END:VCARD' 
 prefix = '/'
-premium = ["5511996237647@s.whatsapp.net"]
 blocked = []          
+premium = ["5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
@@ -176,7 +176,6 @@ client.on('group-participants-update', async (anu) => {
 
 			const botNumber = client.user.jid
 			const ownerNumber = ["5511996237647@s.whatsapp.net"]
-			const premium = ["5511996237647@s.whatsapp.net"]
 			const isGroup = from.endsWith('@g.us')
 			const sender = isGroup ? mek.participant : mek.key.remoteJid
 			const groupMetadata = isGroup ? await client.groupMetadata(from) : ''
@@ -221,6 +220,7 @@ client.on('group-participants-update', async (anu) => {
 					break
 					case 'menupremium':
 		      if (!isPrem) return reply(mess.only.premium)
+		      if (!isOwner) return reply('quem e vc?')
 		      client.sendMessage(from, menupremium(prefix, sender), text, {quoted: mek})
 				  break
 					case 'menu':
@@ -692,6 +692,7 @@ case 'lofi':
 					break
 					case 'play':
 					if (!isPrem) return reply(mess.only.premium)
+					if (!isOwner) return reply('quem e vc?')
                 reply(mess.wait)
                 play = body.slice(5)
                 anu = await fetchJson(`https://api.zeks.xyz/api/ytplaymp3?q=${play}&apikey=apivinz`)
@@ -728,6 +729,7 @@ case 'lofi':
 					break
 					case 'blowjob':
 					if (!isPrem) return reply(mess.only.premium)
+					if (!isOwner) return reply('quem e vc?')
 					ranp = getRandom('.gif')
 					rano = getRandom('.webp')
 					anu = await fetchJson('https://tobz-api.herokuapp.com/api/nsfwblowjob?apikey=BotWeA', {method: 'get'})
