@@ -219,7 +219,7 @@ client.on('group-participants-update', async (anu) => {
 					client.sendMessage(from, help(prefix), text)
 					break
 					case 'menupremium':
-		      if (!isGroupAdmins) return reply(mess.only.admin)
+		      if (!isPrem) return reply(mess.only.premium)
 		      client.sendMessage(from, menupremium(prefix, sender), text, {quoted: mek})
 				  break
 					case 'menu':
@@ -852,7 +852,7 @@ case 'lofi':
 						client.groupMakeAdmin(from, mentioned)
 					}
 					break
-					case 'premiumlist':
+					case 'premimlist':
 					client.updatePresence(from, Presence.composing) 
 					if (!isGroup) return reply(mess.only.group)
 					teks = `╭─「 *TOTAL USER PREMIUM ${name}* 」\n`
@@ -891,13 +891,13 @@ case 'lofi':
 					if (!isOwner) return reply(mess.only.ownerB)
 					addpremium = mek.message.extendedTextMessage.contextInfo.mentionedJid
 					premium = addpremium
-					reply(`*Berhasil Menambahkan ${premium} Ke database User Premium*`)
+					reply(`*💎 ${premium} Se tornou Membro(a) Premium!*`)
 					break
 				case 'removeprem':
 					if (!isOwner) return reply(mess.only.ownerB)
 					rprem = body.slice(13)
 					premium.splice(`${rprem}@s.whatsapp.net`, 1)
-					reply(`Berhasil Remove wa.me/${rprem} Dari User Premium`)
+					reply(`*💎 wa.me/${rprem} Foi removido(a) do Premium!*`)
 					break
 					case 'linkgrup':
 				case 'linkgp':
