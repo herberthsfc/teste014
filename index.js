@@ -43,7 +43,6 @@ const vcard = 'BEGIN:VCARD\n'
             + 'END:VCARD' 
 prefix = '/'
 blocked = []          
-premium = ["5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
@@ -220,7 +219,6 @@ client.on('group-participants-update', async (anu) => {
 					break
 					case 'menupremium':
 		      if (!isPrem) return reply(mess.only.premium)
-		      if (!isOwner) return reply('quem e vc?')
 		      client.sendMessage(from, menupremium(prefix, sender), text, {quoted: mek})
 				  break
 					case 'menu':
@@ -691,18 +689,30 @@ case 'lofi':
 					}
 					break
 					case 'play':
-					if (!isPrem) return reply(mess.only.premium)
-					if (!isOwner) return reply('quem e vc?')
+			   if (!isGroupAdmins) return reply(mess.only.admin)
+			   if (!isGroup) return reply(mess.only.group)
                 reply(mess.wait)
                 play = body.slice(5)
                 anu = await fetchJson(`https://api.zeks.xyz/api/ytplaymp3?q=${play}&apikey=apivinz`)
                if (anu.error) return reply(anu.error)
-                 infomp3 = `*「 Caso não seja a Música que procura, tente definir o título sem acentos. e por favor não floode! 」*\n\n*「 ✔ Música encontrada! 」*\n*「 Título 」* ${anu.result.title}\n*「 Peso 」* ${anu.result.size}\n\n*「 Carregando, aguarde... 」*\n\n*𝙃𝘿𝘽𝙊𝙏, o mais brabo, tá?*`
+                 infomp3 = `*Canção encontrada!!!*\nJudul : ${anu.result.title}\nFonte : ${anu.result.source}\nTamanho : ${anu.result.size}\n\n*ESPERE ENVIANDO POR FAVOR*`
                 buffer = await getBuffer(anu.result.thumbnail)
                 lagu = await getBuffer(anu.result.url_audio)
                 client.sendMessage(from, buffer, image, {quoted: mek, caption: infomp3})
                 client.sendMessage(from, lagu, audio, {mimetype: 'audio/mp4', filename: `${anu.title}.mp3`, quoted: mek})
                 break
+                case 'xvideos':
+               if (!isGroupAdmins) return reply(mess.only.admin)
+			   if (!isPublic) return reply(mess.only.publikG)
+              	    if (args.length < 1) return reply('teksnya mana gan?')
+                    anu = await fetchJson(`https://api.arugaz.my.id/api/media/xvideo/search?query=${body.slice(9)}`, {method: 'get'})
+                    teks = `===============\n`
+                    for (let b of anu.result) {
+                    teks += `• Title: ${b.title}\n• Info: ${b.info}\n• Link: ${b.link}\n===============\n`
+                    }
+                    reply(teks.trim())
+			     	await limitAdd(sender) 
+			     	break 
 					case 'jshsp':
 					if (!isGroup) return reply(mess.only.group)
 					client.updatePresence(from, Presence.composing) 
@@ -715,11 +725,10 @@ case 'lofi':
 					await limitAdd(sender)
 					break 
 					case 'pinterest':
-                                        tels = body.slice(11)
+					if (!isGroup) return reply(mess.only.group)
+                    tels = body.slice(11)
 					client.updatePresence(from, Presence.composing) 
 					data = await fetchJson(`https://api.fdci.se/rep.php?gambar=${tels}`, {method: 'get'})
-                                        if (!isRegister) return reply(mess.only.daftarB)
-                                        if (isLimit(sender)) return reply(ind.limitend(pusname))
 					reply(mess.wait)
 					n = JSON.parse(JSON.stringify(data));
 					nimek =  n[Math.floor(Math.random() * n.length)];
@@ -729,7 +738,6 @@ case 'lofi':
 					break
 					case 'blowjob':
 					if (!isPrem) return reply(mess.only.premium)
-					if (!isOwner) return reply('quem e vc?')
 					ranp = getRandom('.gif')
 					rano = getRandom('.webp')
 					anu = await fetchJson('https://tobz-api.herokuapp.com/api/nsfwblowjob?apikey=BotWeA', {method: 'get'})
