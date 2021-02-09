@@ -20,7 +20,7 @@ const fs = require("fs")
 const { color, bgcolor } = require('./lib/color')
 const { help } = require('./lib/help')
 const { menu } = require('./lib/menu')
-const { menupremium } = require('./lib/menupremium')
+const { menuuy } = require('./lib/menupremium')
 const { serpremium } = require('./lib/serpremium')
 const { gcpf } = require('./src/gcpf')
 const { idiomas } = require('./lib/idiomas')
@@ -43,7 +43,6 @@ const vcard = 'BEGIN:VCARD\n'
             + 'END:VCARD' 
 prefix = '/'
 blocked = []
-premium = ["5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
@@ -176,6 +175,7 @@ client.on('group-participants-update', async (anu) => {
 
 			const botNumber = client.user.jid
 			const ownerNumber = ["5511996237647@s.whatsapp.net"]
+			const premium = ["5511996237647@s.whatsapp.net","5585999612065@s.whatsapp.net"]
 			const isGroup = from.endsWith('@g.us')
 			const sender = isGroup ? mek.participant : mek.key.remoteJid
 			const groupMetadata = isGroup ? await client.groupMetadata(from) : ''
@@ -190,7 +190,7 @@ client.on('group-participants-update', async (anu) => {
 			const isNsfw = isGroup ? nsfw.includes(from) : false
 			const isSimi = isGroup ? samih.includes(from) : false
 			const isOwner = ownerNumber.includes(sender)
-			const isPrem = premium.includes(sender)
+			const isPremium = premium.includes(sender)
 			const isUrl = (url) => {
 			    return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
 			}
@@ -726,7 +726,7 @@ case 'lofi':
                                         await limitAdd(sender)
 					break
 					case 'blowjob':
-					if (!isPrem) return reply(mess.only.premium)
+					if (!isPremium) return reply('Anda bukan Member Premium, silakan hubungi owner atau ketik *#daftarvip* untuk membeli akses Premium!' ,text, { quoted: mek })
 					ranp = getRandom('.gif')
 					rano = getRandom('.webp')
 					anu = await fetchJson('https://tobz-api.herokuapp.com/api/nsfwblowjob?apikey=BotWeA', {method: 'get'})
@@ -884,13 +884,13 @@ case 'lofi':
 						mentions(`*「 ✔️ 」 SE FODEU! @${mentioned[0].split('@')[0]} Removido(a) com sucesso!*`, mentioned, true)
 						client.groupRemove(from, mentioned)
 					}
-					break
 					case 'addprem':
 					client.updatePresence(from, Presence.composing)
+					if (args.length < 1) return
 					if (!isOwner) return reply(mess.only.ownerB)
 					addpremium = mek.message.extendedTextMessage.contextInfo.mentionedJid
 					premium = addpremium
-					reply(`*💎 ${premium} Se tornou Membro(a) Premium!*`)
+					reply(`*Berhasil Menambahkan ${premium} Ke database User Premium*`)
 					break
 				case 'removeprem':
 					if (!isOwner) return reply(mess.only.ownerB)
