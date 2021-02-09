@@ -43,7 +43,7 @@ const vcard = 'BEGIN:VCARD\n'
             + 'END:VCARD' 
 prefix = '/'
 blocked = []
-premium = ["5511996237647@s.whatsapp.net","5585999612065@s.whatsapp.net","5511996237647@s.whatsapp.net"]
+premium = ["5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
@@ -219,7 +219,7 @@ client.on('group-participants-update', async (anu) => {
 					client.sendMessage(from, help(prefix), text)
 					break
 					case 'menupremium':
-		      if (!isPrem) return reply(mess.only.premium)
+		      if (!isGroupAdmins) return reply(mess.only.admin)
 		      client.sendMessage(from, menupremium(prefix, sender), text, {quoted: mek})
 				  break
 					case 'menu':
@@ -691,7 +691,6 @@ case 'lofi':
 					break
 					case 'play':
 			   if (!isGroupAdmins) return reply(mess.only.admin)
-			   if (!isPrem) return reply(mess.only.premium)
 			   if (!isGroup) return reply(mess.only.group)
                 reply(mess.wait)
                 play = body.slice(5)
@@ -703,19 +702,6 @@ case 'lofi':
                 client.sendMessage(from, buffer, image, {quoted: mek, caption: infomp3})
                 client.sendMessage(from, lagu, audio, {mimetype: 'audio/mp4', filename: `${anu.title}.mp3`, quoted: mek})
                 break
-                case 'xvideos':
-               if (!isGroupAdmins) return reply(mess.only.admin)
-               if (!isPrem) return reply(mess.only.premium)
-			   if (!isGroup) return reply(mess.only.group)
-              	    if (args.length < 1) return reply('teksnya mana gan?')
-                    anu = await fetchJson(`https://api.arugaz.my.id/api/media/xvideo/search?query=${body.slice(9)}`, {method: 'get'})
-                    teks = `===============\n`
-                    for (let b of anu.result) {
-                    teks += `• Title: ${b.title}\n• Info: ${b.info}\n• Link: ${b.link}\n===============\n`
-                    }
-                    reply(teks.trim())
-			     	await limitAdd(sender) 
-			     	break 
 					case 'jshsp':
 					if (!isGroup) return reply(mess.only.group)
 					client.updatePresence(from, Presence.composing) 
@@ -740,7 +726,6 @@ case 'lofi':
                                         await limitAdd(sender)
 					break
 					case 'blowjob':
-					if (!isGroupAdmins) return reply(mess.only.admin)
 					if (!isPrem) return reply(mess.only.premium)
 					ranp = getRandom('.gif')
 					rano = getRandom('.webp')
@@ -867,13 +852,13 @@ case 'lofi':
 						client.groupMakeAdmin(from, mentioned)
 					}
 					break
-					case 'premimlist':
+					case 'premiumlist':
 					client.updatePresence(from, Presence.composing) 
 					if (!isGroup) return reply(mess.only.group)
 					teks = `╭─「 *TOTAL USER PREMIUM ${name}* 」\n`
 					no = 0
 					for (let prem of premium) {
-						no += 1
+						no += 5
 						teks += `[${no.toString()}] @${prem.split('@')[0]}\n`
 					}
 					teks += `│+ Total User Premium : ${premium.length}\n╰──────⎿ *${name}* ⏋────`
@@ -902,7 +887,6 @@ case 'lofi':
 					break
 					case 'addprem':
 					client.updatePresence(from, Presence.composing)
-					if (args.length < 1) return
 					if (!isOwner) return reply(mess.only.ownerB)
 					addpremium = mek.message.extendedTextMessage.contextInfo.mentionedJid
 					premium = addpremium
