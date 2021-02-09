@@ -43,7 +43,7 @@ const vcard = 'BEGIN:VCARD\n'
             + 'END:VCARD' 
 prefix = '/'
 blocked = []
-premium = ["5511996237647@s.whatsapp.net","5585999612065@s.whatsapp.net","5511996237647@s.whatsapp.net""]
+premium = ["5511996237647@s.whatsapp.net","5585999612065@s.whatsapp.net","5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
