@@ -43,7 +43,7 @@ const vcard = 'BEGIN:VCARD\n'
             + 'END:VCARD' 
 prefix = '/'
 blocked = []
-premium = ["5511996237647@s.whatsapp.net"]
+premium = ["5511996237647@s.whatsapp.net","5585999612065@s.whatsapp.net","5511996237647@s.whatsapp.net""]
 
 /********** LOAD FILE **************/
 
@@ -706,7 +706,7 @@ case 'lofi':
                 case 'xvideos':
                if (!isGroupAdmins) return reply(mess.only.admin)
                if (!isPrem) return reply(mess.only.premium)
-			   if (!isPublic) return reply(mess.only.publikG)
+			   if (!isGroup) return reply(mess.only.group)
               	    if (args.length < 1) return reply('teksnya mana gan?')
                     anu = await fetchJson(`https://api.arugaz.my.id/api/media/xvideo/search?query=${body.slice(9)}`, {method: 'get'})
                     teks = `===============\n`
