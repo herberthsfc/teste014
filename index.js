@@ -35,6 +35,7 @@ const { removeBackgroundFromImageFile } = require('remove.bg')
 const welkom = JSON.parse(fs.readFileSync('./src/welkom.json'))
 const nsfw = JSON.parse(fs.readFileSync('./src/nsfw.json'))
 const samih = JSON.parse(fs.readFileSync('./src/simi.json'))
+const userpremium = JSON.parse(fs.readFileSync('./src/premium.json'))
 const vcard = 'BEGIN:VCARD\n' 
             + 'VERSION:3.0\n' 
             + 'FN:Herberth\n' 
@@ -854,15 +855,15 @@ case 'lofi':
 					break
 					case 'premiumlist':
 					client.updatePresence(from, Presence.composing) 
-					if (!isGroup) return reply(mess.only.group)
+					if (!isUser) return reply(mess.only.userB)
 					teks = `╭─「 *TOTAL USER PREMIUM ${name}* 」\n`
 					no = 0
-					for (let prem of premium) {
-						no += 5
+					for (let prem of userpremium) {
+						no += 1
 						teks += `[${no.toString()}] @${prem.split('@')[0]}\n`
 					}
-					teks += `│+ Total User Premium : ${premium.length}\n╰──────⎿ *${name}* ⏋────`
-					client.sendMessage(from, teks.trim(), extendedText, {quoted: mek, contextInfo: {"mentionedJid": premium}})
+					teks += `│+ Total User Premium : ${userpremium.length}\n╰──────⎿ *${name}* ⏋────`
+					client.sendMessage(from, teks.trim(), extendedText, {quoted: mek, contextInfo: {"mentionedJid": userpremium}})
 					break
 			     	case 'kick':
 			case 'ban':
@@ -888,15 +889,17 @@ case 'lofi':
 					client.updatePresence(from, Presence.composing)
 					if (args.length < 1) return
 					if (!isOwner) return reply(mess.only.ownerB)
-					addpremium = mek.message.extendedTextMessage.contextInfo.mentionedJid
-					premium = addpremium
-					reply(`*Berhasil Menambahkan ${premium} Ke database User Premium*`)
+					addpremium = `${body.slice(9)}@.whatsapp.net`
+					userpremium.push(addpremium)
+					fs.writeFileSync('./database/json/premium.json', JSON.stringify(userpremium))
+					reply(`*Berhasil Menambahkan ${addpremium} Ke database User Premium*`)
 					break
 				case 'removeprem':
 					if (!isOwner) return reply(mess.only.ownerB)
 					rprem = body.slice(13)
-					premium.splice(`${rprem}@s.whatsapp.net`, 1)
-					reply(`*💎 wa.me/${rprem} Foi removido(a) do Premium!*`)
+					userpremium.splice(`${rprem}@s.whatsapp.net`, 1)
+					fs.writeFileSync('./database/json/premium.json', JSON.stringify(userpremium))
+					reply(`Berhasil Remove wa.me/${rprem} Dari User Premium`)
 					break
 					case 'linkgrup':
 				case 'linkgp':
