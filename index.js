@@ -42,7 +42,8 @@ const vcard = 'BEGIN:VCARD\n'
             + 'TEL;type=CELL;type=VOICE;waid=5511996237647:+55 (11) 99623-7647\n' 
             + 'END:VCARD' 
 prefix = '/'
-blocked = []          
+blocked = []
+premium = ["5511996237647@s.whatsapp.net"]
 
 /********** LOAD FILE **************/
 
@@ -167,8 +168,8 @@ client.on('group-participants-update', async (anu) => {
 					group: '*「 ❗ 」 Comando disponível apenas em grupos!*',
 					ownerG: '*「 💎 」 Comando disponível apenas para o grupo proprietário!*',
 					ownerB: '*「 💎 」 Comando disponível apenas para o Herberth!*',
-					premium: '*「 💎 Comando disponível apenas para Membros Premium! 」*',
-					admin: '*「 💎 」 Comando disponível apenas para Adms do grupo!*',
+					premium: '*「 💎 Comando disponível apenas para Membros Premium ou Adms do grupo! 」*',
+					admin: '*「 💎 Comando disponível apenas para Membros Premium ou Adms do grupo! 」*',
 					Badmin: '*「 ❗ 」 O Bot precisa de adm para cumprir as funções!*'
 				}
 			}
@@ -690,6 +691,7 @@ case 'lofi':
 					break
 					case 'play':
 			   if (!isGroupAdmins) return reply(mess.only.admin)
+			   if (!isPrem) return reply(mess.only.premium)
 			   if (!isGroup) return reply(mess.only.group)
                 reply(mess.wait)
                 play = body.slice(5)
@@ -703,6 +705,7 @@ case 'lofi':
                 break
                 case 'xvideos':
                if (!isGroupAdmins) return reply(mess.only.admin)
+               if (!isPrem) return reply(mess.only.premium)
 			   if (!isPublic) return reply(mess.only.publikG)
               	    if (args.length < 1) return reply('teksnya mana gan?')
                     anu = await fetchJson(`https://api.arugaz.my.id/api/media/xvideo/search?query=${body.slice(9)}`, {method: 'get'})
@@ -737,6 +740,7 @@ case 'lofi':
                                         await limitAdd(sender)
 					break
 					case 'blowjob':
+					if (!isGroupAdmins) return reply(mess.only.admin)
 					if (!isPrem) return reply(mess.only.premium)
 					ranp = getRandom('.gif')
 					rano = getRandom('.webp')
